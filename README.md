@@ -30,13 +30,13 @@ optional arguments:
 
 ## Example
 
-To find minimum spanning tree of a graph with the relative path ```./input/graph1.txt``` using Dijkstra algorithm, type following command:
-``` python main.py -p ./input/graph1.txt -a dijkstra -s static```
+To find minimum spanning tree of a graph with the relative path `./input/graph1.txt` using Dijkstra algorithm, type following command:
+`python main.py -p ./input/graph1.txt -a dijkstra -s static`
 
 To display all the steps of the algorithm, type following command:
-``` python main.py -p ./input/graph1.txt -a dijkstra -s dynamic```
+`python main.py -p ./input/graph1.txt -a dijkstra -s dynamic`
 
-> **Note**: Commands used in this example can be found inside ```commands.txt```
+> **Note**: Commands used in this example can be found inside `commands.txt`
 
 ## Testing
 
