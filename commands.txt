@@ -1,0 +1,4 @@
+python main.py -p ./input/graph1.txt -a dijkstra -s static
+python main.py -p ./input/graph1.txt -a dijkstra -s dynamic
+python main.py -p ./input/graph2.txt -a kruskal -s dynamic -v 2 --size 12,10
+python main.py -p ./input/graph2.txt -a kruskal -s static -v 2 --size 12,10
