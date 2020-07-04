@@ -30,7 +30,9 @@ To find the minimum spanning tree of a graph with the relative path `./input/gra
 To display all the steps of the algorithm, type the following command:
 `python main.py -p ./input/graph1.txt -a dijkstra -s dynamic`
 
-![](mst.gif)
+The resulting minimum spanning tree is displayed in the gif below:
+
+![](gifs/mst.gif)
 
 As you can see it's really easy to define a new graph and plot it in static or dynamic manner. Dynamic plotting allows you to create gifs. To do so, just add the `--gifpath` option and specify a path where the gif will be saved. 
 > **Note**: Commands used in this example can be found inside `commands.txt`
