@@ -9,6 +9,8 @@ pylint = "*"
 [packages]
 networkx = "*"
 matplotlib = "*"
+pil = "*"
+pillow = "*"
 
 [requires]
 python_version = "3.7"

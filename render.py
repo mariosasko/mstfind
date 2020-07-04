@@ -1,10 +1,10 @@
-from typing import Container, Dict, Optional, Tuple, TypeVar, Union
+from typing import Dict, Optional, Tuple
 
 import matplotlib.pyplot as plt
 import networkx as nx
-from matplotlib.animation import FuncAnimation
+from matplotlib.animation import FuncAnimation, PillowWriter
 
-from constants import Edges, Number, T
+from type_constants import Edges, Number, T
 from graph import Graph
 
 
@@ -28,17 +28,18 @@ class GraphRenderer:
     MST_EDGE_LABEL_COLOR = 'r'
     EDGE_WIDTH = 2.0
     FRAME_INTERVAL = 1000
+    GIF_FPS = 1
 
     def __init__(self, window_title='MSTsolver', figsize=None):
         self._converter = GraphConverter()
         self._fig, self._ax = plt.subplots(figsize=figsize)
         self._fig.canvas.set_window_title(window_title)
     
-    def render_mst(self, g: Graph, mst: Graph, animated: bool = False, trace: Optional[Edges] = None):
+    def render_mst(self, g: Graph, mst: Graph, animated: bool = False, trace: Optional[Edges] = None, gifpath=None):
         if animated:
             if trace is None:
                 raise ValueError('argument trace must contain sequence of edges')
-            self._render_mst_complex(g, trace)
+            self._render_mst_complex(g, trace, gifpath)
         else:
             self._render_mst_simple(g, mst)
 
@@ -65,19 +66,21 @@ class GraphRenderer:
         plt.axis('off')
         plt.show()
     
-    def _render_mst_complex(self, g: Graph, trace: Edges):
+    def _render_mst_complex(self, g: Graph, trace: Edges, gifpath=None):
         g_nx = self._converter.graph_to_nx_graph(g)
         g_weighthed_edges = self._converter.weighted_edges(g)
         
         pos = nx.spring_layout(g_nx, k=0.4)
         def _init():
             self._ax.set_title(f'initial graph')
-            nx.draw_networkx(g_nx, pos=pos, with_labels=True, node_color=self.NODE_COLOR)
+            nx.draw_networkx(g_nx, pos=pos, with_labels=True, 
+                             node_color=GraphRenderer.NODE_COLOR)
         
-            nx.draw_networkx_edges(g_nx, pos, edge_color=self.G_EDGE_COLOR, width=self.EDGE_WIDTH, 
-                                   arrows=False, ax=self._ax)
+            nx.draw_networkx_edges(g_nx, pos, edge_color=GraphRenderer.G_EDGE_COLOR, 
+                                   width=GraphRenderer.EDGE_WIDTH, arrows=False, 
+                                   ax=self._ax)
             nx.draw_networkx_edge_labels(g_nx, pos, edge_labels=g_weighthed_edges, 
-                                         font_color=self.G_EDGE_LABEL_COLOR, ax=self._ax)
+                                         font_color=GraphRenderer.G_EDGE_LABEL_COLOR, ax=self._ax)
     
         def _update(frame):
             self._ax.set_title(f'step {frame+1}. - edge {trace[frame]} added to tree')
@@ -85,13 +88,20 @@ class GraphRenderer:
             edgelist = [edge for edge, _ in trace[:frame+1]]
             edge_labels = {edge: w for edge, w in trace[:frame+1]}
             
-            nx.draw_networkx_edges(g_nx, pos, edgelist=edgelist, edge_color=self.MST_EDGE_COLOR, 
-                                   width=self.EDGE_WIDTH, arrows=False, ax=self._ax)
+            nx.draw_networkx_edges(g_nx, pos, edgelist=edgelist, 
+                                   edge_color=GraphRenderer.MST_EDGE_COLOR, 
+                                   width=GraphRenderer.EDGE_WIDTH, 
+                                   arrows=False, ax=self._ax)
             nx.draw_networkx_edge_labels(g_nx, pos, edge_labels=edge_labels, 
-                                         font_color=self.MST_EDGE_LABEL_COLOR, ax=self._ax)
+                                         font_color=GraphRenderer.MST_EDGE_LABEL_COLOR, 
+                                         ax=self._ax)
 
         self.ani = FuncAnimation(self._fig, _update, frames=len(trace), init_func=_init, 
-                                 interval=self.FRAME_INTERVAL, repeat=False)
+                                 interval=GraphRenderer.FRAME_INTERVAL, repeat=False)
         
+        if gifpath:
+            writer = PillowWriter(fps=GraphRenderer.GIF_FPS)
+            self.ani.save(gifpath, writer=writer)
+
         plt.axis('off')
         plt.show()

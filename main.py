@@ -5,7 +5,7 @@ import textwrap
 
 from algorithms import dijkstra_mst, kruskal_mst, prim_mst
 from render import GraphRenderer
-from util import loadtxt
+from utils import loadtxt
 
 
 ALGORITHMS = {'dijkstra': dijkstra_mst, 
@@ -34,20 +34,22 @@ class Runner:
     def _get_parser(self):
         parser = argparse.ArgumentParser()
 
-        parser.add_argument('-p', '--path', dest='path', 
-                            action='store', default=DEFAULT_PATH,
+        parser.add_argument('-p', '--path', 
+                            default=DEFAULT_PATH,
                             help='path to the graph')
-        parser.add_argument('-a', '--algorithm', dest='algorithm', 
+        parser.add_argument('-a', '--algorithm', 
                             choices=sorted(ALGORITHMS.keys()), default='kruskal',
-                            help='algorithm used to find minimum spanning tree')
-        parser.add_argument('-v', '--verbose', dest='verbose', 
-                            action='store', default=0, type=int,
+                            help='algorithm used to find the minimum spanning tree')
+        parser.add_argument('-v', '--verbose', 
+                            default=0, type=int,
                             help='verbosity level (integer >= 0)')
-        parser.add_argument('-s', '--show', dest='show',
+        parser.add_argument('-s', '--show',
                             choices=RENDER_OPTIONS,
-                            help='static or dynamic plotting of mst')
+                            help='static or dynamic plotting of the mst')
+        parser.add_argument('--gifpath', 
+                            help='path of the gif file (use this option only when creating dynamic plots)')
         parser.add_argument('--size', dest='size', metavar='X,Y',
-                            action='store', type=tuple_type, 
+                            type=tuple_type, 
                             help='figure size')
 
         return parser
@@ -74,7 +76,7 @@ class Runner:
             if show == 'static':
                 renderer.render_mst(g, mst)
             else:
-                renderer.render_mst(g, mst, animated=True, trace=mst._trace)
+                renderer.render_mst(g, mst, animated=True, trace=mst._trace, gifpath=args.gifpath)
 
 if __name__ == '__main__':
     Runner().run()

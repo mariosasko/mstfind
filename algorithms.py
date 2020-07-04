@@ -1,37 +1,34 @@
 import operator
-from typing import Container, Optional, Tuple, TypeVar, Union
+from typing import Optional, Tuple, Union
 
-from constants import Edges, Number, T
+from type_constants import Edges, Number, T
 from data_structures import PriorityQueue, UnionFind
 from graph import Graph
 
 
 INF = float('inf')
 
-def dijkstra_mst(g: Graph, verbose: int = 0) -> Graph:
-    def find_cycle_edges(vertex: T, g: Graph, visited: list, parent: Optional[T] = None) -> Tuple[Optional[Edges], bool]:
-        if vertex in visited:
-            return [], False
-        
-        visited.append(vertex)
-        for v, w in g.vertex_neighbours(vertex):
-            if v == parent: continue
-
-            edges, finished = find_cycle_edges(v, g, visited, vertex)
-
-            if edges is None: continue
-
-            if finished:
-                return edges, True
-
-            edges.append(((vertex, v), w))
-            # check if current vertex marks end of cycle            
-            if vertex == edges[0][0][1]:
-                finished = True
-            return edges, finished
-
-        return None, False
+def find_cycle_edges(vertex: T, g: Graph, visited: list, parent: Optional[T] = None) -> Tuple[Optional[Edges], bool]:
+    if vertex in visited:
+        return [], False
     
+    visited.append(vertex)
+    for v, w in g.vertex_neighbours(vertex):
+        if v == parent: continue
+        edges, finished = find_cycle_edges(v, g, visited, vertex)
+        if edges is None: continue
+        if finished:
+            return edges, True
+        edges.append(((vertex, v), w))
+        
+        # check if the current vertex marks end of the cycle            
+        if vertex == edges[0][0][1]:
+            finished = True
+        return edges, finished
+
+    return None, False
+
+def dijkstra_mst(g: Graph, verbose: int = 0) -> Graph:
     mst = Graph()
     trace = []
     visited = set()
