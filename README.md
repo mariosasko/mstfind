@@ -1,14 +1,6 @@
 # MstFind
 
-MstFind is a simple application for displaying the process of finding minimum spanning tree of a graph using Dijkstra, Kruskal and Prim algorithm.
-
-## Quick start
-
-```bash
-git clone git@github.com:mariosasko/mstfind.git
-cd mstfind
-pip install -r requirements.txt
-```
+MstFind is a simple application for displaying the process of finding the minimum spanning tree of a graph using Dijkstra's, Kruskal's and Prim's algorithm.
 
 ## Basic Usage
 
@@ -20,26 +12,20 @@ optional arguments:
   -h, --help            show this help message and exit
   -p PATH, --path PATH  path to the graph
   -a {dijkstra,kruskal,prim}, --algorithm {dijkstra,kruskal,prim}
-                        algorithm used to find minimum spanning tree
+                        algorithm used to find the minimum spanning tree
   -v VERBOSE, --verbose VERBOSE
                         verbosity level (integer >= 0)
   -s {static,dynamic}, --show {static,dynamic}
-                        static or dynamic plotting of mst
+                        static or dynamic plotting of the mst
   --size X,Y            figure size
 ```
 
 ## Example
 
-To find the minimum spanning tree of a graph with the relative path `./input/graph1.txt` using Dijkstra algorithm, type following command:
+To find the minimum spanning tree of a graph with the relative path `./input/graph1.txt` using Dijkstra algorithm, type the following command:
 `python main.py -p ./input/graph1.txt -a dijkstra -s static`
 
 To display all the steps of the algorithm, type the following command:
 `python main.py -p ./input/graph1.txt -a dijkstra -s dynamic`
 
 > **Note**: Commands used in this example can be found inside `commands.txt`
-
-## Testing
-
-To run the tests, use the following command:
-`python -m unittest discover tests`
-
