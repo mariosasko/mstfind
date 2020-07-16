@@ -1,6 +1,7 @@
 from typing import Hashable
 
-from type_constants import Edge
+from .type_constants import Edge
+
 
 class Graph:
 

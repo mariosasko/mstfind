@@ -1,12 +1,13 @@
 import operator
 from typing import Optional, Tuple, Union
 
-from type_constants import Edges, Number, T
-from data_structures import PriorityQueue, UnionFind
-from graph import Graph
+from .data_structures import PriorityQueue, UnionFind
+from .graph import Graph
+from .type_constants import Edges, Number, T
 
 
 INF = float('inf')
+
 
 def find_cycle_edges(vertex: T, g: Graph, visited: list, parent: Optional[T] = None) -> Tuple[Optional[Edges], bool]:
     if vertex in visited:
@@ -14,14 +15,16 @@ def find_cycle_edges(vertex: T, g: Graph, visited: list, parent: Optional[T] = N
     
     visited.append(vertex)
     for v, w in g.vertex_neighbours(vertex):
-        if v == parent: continue
+        if v == parent:
+            continue
         edges, finished = find_cycle_edges(v, g, visited, vertex)
-        if edges is None: continue
+        if edges is None:
+            continue
         if finished:
             return edges, True
         edges.append(((vertex, v), w))
         
-        # check if the current vertex marks end of the cycle            
+        # check if the current vertex marks the end of the cycle            
         if vertex == edges[0][0][1]:
             finished = True
         return edges, finished
@@ -58,6 +61,7 @@ def dijkstra_mst(g: Graph, verbose: int = 0) -> Graph:
     mst._trace = trace
     return mst
 
+
 def kruskal_mst(g: Graph, verbose: int = 0) -> Graph:
     queue = PriorityQueue()
     uf = UnionFind()
@@ -88,6 +92,7 @@ def kruskal_mst(g: Graph, verbose: int = 0) -> Graph:
 
     mst._trace = trace
     return mst
+
 
 def prim_mst(g: Graph, verbose: int = 0) -> Graph:
     vertices = g.vertices()

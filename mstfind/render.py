@@ -1,11 +1,10 @@
 from typing import Dict, Optional, Tuple
-
 import matplotlib.pyplot as plt
 import networkx as nx
 from matplotlib.animation import FuncAnimation, PillowWriter
 
-from type_constants import Edges, Number, T
-from graph import Graph
+from .type_constants import Edges, Number, T
+from .graph import Graph
 
 
 class GraphConverter:
@@ -20,6 +19,7 @@ class GraphConverter:
         d = {edge: w for edge, w in g.edges()}
         return d
 
+
 class GraphRenderer:
     NODE_COLOR = 'g'
     G_EDGE_COLOR = 'g'
@@ -29,11 +29,12 @@ class GraphRenderer:
     EDGE_WIDTH = 2.0
     FRAME_INTERVAL = 1000
     GIF_FPS = 1
+    WINDOWS_TITLE = 'MstFind'
 
-    def __init__(self, window_title='MSTsolver', figsize=None):
+    def __init__(self, figsize=None):
         self._converter = GraphConverter()
         self._fig, self._ax = plt.subplots(figsize=figsize)
-        self._fig.canvas.set_window_title(window_title)
+        self._fig.canvas.set_window_title(GraphRenderer.WINDOWS_TITLE)
     
     def render_mst(self, g: Graph, mst: Graph, animated: bool = False, trace: Optional[Edges] = None, gifpath=None):
         if animated:
@@ -83,7 +84,7 @@ class GraphRenderer:
                                          font_color=GraphRenderer.G_EDGE_LABEL_COLOR, ax=self._ax)
     
         def _update(frame):
-            self._ax.set_title(f'step {frame+1}. - edge {trace[frame]} added to tree')
+            self._ax.set_title(f'step {frame + 1}. - edge {trace[frame]} added to tree')
 
             edgelist = [edge for edge, _ in trace[:frame+1]]
             edge_labels = {edge: w for edge, w in trace[:frame+1]}

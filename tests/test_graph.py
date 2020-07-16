@@ -1,6 +1,5 @@
 import unittest
-
-from graph import Graph
+from mstfind import Graph
 
 
 class Placeholder:

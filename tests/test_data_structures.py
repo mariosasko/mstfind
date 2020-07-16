@@ -1,6 +1,5 @@
 import unittest
-
-from data_structures import PriorityQueue, UnionFind
+from mstfind.data_structures import PriorityQueue, UnionFind
 
 
 class TestPriorityQueue(unittest.TestCase):

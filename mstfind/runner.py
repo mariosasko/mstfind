@@ -3,16 +3,16 @@ import operator
 import sys
 import textwrap
 
-from algorithms import dijkstra_mst, kruskal_mst, prim_mst
-from render import GraphRenderer
-from utils import loadtxt
+from .algorithms import dijkstra_mst, kruskal_mst, prim_mst
+from .render import GraphRenderer
+from .io_utils import loadtxt
 
 
 ALGORITHMS = {'dijkstra': dijkstra_mst, 
               'kruskal': kruskal_mst, 
               'prim': prim_mst}
 RENDER_OPTIONS = ('static', 'dynamic')
-DEFAULT_PATH = './input/graph1.txt'
+DEFAULT_GRAPH = './graphs/graph1.txt'
 
 RESULT_DELIM = '='*50
 
@@ -22,6 +22,7 @@ def tuple_type(s):
         return int(x), int(y)
     except:
         raise argparse.ArgumentTypeError('size must be pair of integers')
+
 
 class Runner:
 
@@ -34,9 +35,9 @@ class Runner:
     def _get_parser(self):
         parser = argparse.ArgumentParser()
 
-        parser.add_argument('-p', '--path', 
-                            default=DEFAULT_PATH,
-                            help='path to the graph')
+        parser.add_argument('-g', '--graph', 
+                            default=DEFAULT_GRAPH,
+                            help='the graph which mst will be drawn')
         parser.add_argument('-a', '--algorithm', 
                             choices=sorted(ALGORITHMS.keys()), default='kruskal',
                             help='algorithm used to find the minimum spanning tree')
@@ -57,7 +58,7 @@ class Runner:
     def run(self):
         args = self._parser.parse_args(self._argv[1:])
         mst_algorithm = ALGORITHMS[args.algorithm]
-        g = loadtxt(args.path)
+        g = loadtxt(args.graph)
         verbose = args.verbose
         mst = mst_algorithm(g, verbose)
         
@@ -78,6 +79,6 @@ class Runner:
             else:
                 renderer.render_mst(g, mst, animated=True, trace=mst._trace, gifpath=args.gifpath)
 
-if __name__ == '__main__':
-    Runner().run()
 
+def main():
+    Runner().run()

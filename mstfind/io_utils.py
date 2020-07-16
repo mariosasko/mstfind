@@ -1,4 +1,4 @@
-from graph import Graph
+from .graph import Graph
 
 
 def loadtxt(fname):
@@ -17,6 +17,7 @@ def loadtxt(fname):
         except:
             raise ValueError(f'error parsing line {lineno}')
     return g
+
 
 def savetxt(g, fname):
     with open(fname, mode='w') as f:

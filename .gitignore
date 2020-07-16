@@ -1,6 +1,11 @@
-# Cache
-__pycache__/
-tests/__pycache__/
+# Python
+**/__pycache__
+
+# Env
+Pipfile
+Pipfile.lock
 
 # IDE
 .vscode/
+
+build
