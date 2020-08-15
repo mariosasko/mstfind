@@ -38,7 +38,7 @@ def dijkstra_mst(g: Graph, verbose: int = 0) -> Graph:
     
     for (u, v), w in g.edges():
         if verbose > 0:
-            print(f'edge {(u, v), w} added to tree')
+            print(f'edge {(u, v), w} added to the tree')
         mst.add_edge((u, v), w)
         trace.append(((u, v), w))
 
@@ -53,7 +53,7 @@ def dijkstra_mst(g: Graph, verbose: int = 0) -> Graph:
                 else:
                     trace.remove(((max_v, max_u), max_w))
                 if verbose > 0:
-                    print(f'edge {max_edge, max_w} removed from tree (edge with maximum weight within cycle)')
+                    print(f'edge {max_edge, max_w} removed from the tree (edge with maximum weight within cycle)')
 
         visited.add(u)
         visited.add(v)
@@ -83,7 +83,7 @@ def kruskal_mst(g: Graph, verbose: int = 0) -> Graph:
             continue
         
         if verbose > 0:
-            print(f'edge {(u, v), w} added to tree')
+            print(f'edge {(u, v), w} added to the tree')
 
         mst.add_edge((u, v), w)
         uf.union(u, v)
@@ -107,7 +107,7 @@ def prim_mst(g: Graph, verbose: int = 0) -> Graph:
         mst.add_vertex(u)
         if u in vparent:
             if verbose > 0:
-                print(f'edge {vparent[u], vcost[u]} added to tree')
+                print(f'edge {vparent[u], vcost[u]} added to the tree')
             mst.add_edge(vparent[u], vcost[u])
             trace.append((vparent[u], vcost[u]))
        

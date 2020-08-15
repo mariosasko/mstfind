@@ -84,7 +84,7 @@ class GraphRenderer:
                                          font_color=GraphRenderer.G_EDGE_LABEL_COLOR, ax=self._ax)
     
         def _update(frame):
-            self._ax.set_title(f'step {frame + 1}. - edge {trace[frame]} added to tree')
+            self._ax.set_title(f'step {frame + 1}. - edge {trace[frame]} added to the tree')
 
             edgelist = [edge for edge, _ in trace[:frame+1]]
             edge_labels = {edge: w for edge, w in trace[:frame+1]}
