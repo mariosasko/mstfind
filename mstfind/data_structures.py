@@ -2,15 +2,18 @@ from __future__ import annotations
 
 import heapq
 from dataclasses import dataclass, field
-from typing import Any, Optional, Tuple
+from typing import Generic, Optional, TypeVar, Tuple
 
 
-class PriorityQueue:
+T = TypeVar('T')
+
+
+class PriorityQueue(Generic[T]):
     
     def __init__(self):
         self._queue = []
     
-    def put(self, item: Tuple[int, Any]):
+    def put(self, item: Tuple[int, T]):
         heapq.heappush(self._queue, item)
     
     def get(self):
@@ -27,14 +30,14 @@ class Node:
     rank: int = field(default=0, init=False)
 
 
-class UnionFind:
+class UnionFind(Generic[T]):
 
     def __init__(self):
         self._items = []
         self._roots = []
         self._id = 0
     
-    def add(self, item: Any):
+    def add(self, item: T):
         if item in self._items:
             return
         
@@ -44,7 +47,7 @@ class UnionFind:
         self._roots.append(node)
         self._id += 1
     
-    def find(self, item: Any):
+    def find(self, item: T):
         id = self._items.index(item)
         root = self.find_root(id)
         return self._items[root.id]
@@ -65,7 +68,7 @@ class UnionFind:
         
         return root
 
-    def union(self, itemx: Any, itemy: Any):
+    def union(self, itemx: T, itemy: T):
         idx = self._items.index(itemx)
         idy = self._items.index(itemy)
         rootx = self.find_root(idx)
@@ -82,6 +85,6 @@ class UnionFind:
             rooty.parent = rootx
             rootx.rank += 1
         
-    def _node(self, item: Any):
+    def _node(self, item: T):
         id = self._items.index(item)
         return self._roots[id]

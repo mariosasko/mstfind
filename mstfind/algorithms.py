@@ -1,15 +1,22 @@
 import operator
-from typing import Optional, Tuple, Union
+from typing import Container, Hashable, List, Optional, TypeVar, Tuple, Union
 
 from .data_structures import PriorityQueue, UnionFind
 from .graph import Graph
-from .type_constants import Edges, Number, T
 
+
+T = TypeVar('T', bound=Hashable)
+Edge = Tuple[T, T]
+N = TypeVar('N', int, float)
+Edges = Container[Tuple[Edge, N]]
 
 INF = float('inf')
 
 
-def find_cycle_edges(vertex: T, g: Graph, visited: list, parent: Optional[T] = None) -> Tuple[Optional[Edges], bool]:
+def find_cycle_edges(vertex: T, g: Graph, 
+                     visited: List[T], 
+                     parent: Optional[T] = None
+                     ) -> Tuple[Optional[Edges], bool]:
     if vertex in visited:
         return [], False
     

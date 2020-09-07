@@ -1,21 +1,24 @@
-from typing import Hashable
-
-from .type_constants import Edge
+from typing import Generic, Hashable, TypeVar, Tuple
 
 
-class Graph:
+T = TypeVar('T', bound=Hashable)
+N = TypeVar('N', int, float)
+Edge = Tuple[T, T]
 
-    def __init__(self):
+
+class Graph(Generic[T, N]):
+
+    def __init__(self) -> None:
         self._vertices = set()
         self._edges = set()
         self._vertex_neighbours = {}
 
-    def add_vertex(self, vertex: Hashable):
+    def add_vertex(self, vertex: T) -> None:
         if vertex not in self._vertices:
             self._vertices.add(vertex)
             self._vertex_neighbours[vertex] = set()
 
-    def remove_vertex(self, vertex: Hashable):
+    def remove_vertex(self, vertex: T) -> None:
         self._vertices.remove(vertex)
         for v, w in self._vertex_neighbours[vertex]:
             self._vertex_neighbours[v].remove((vertex, w))
@@ -25,7 +28,7 @@ class Graph:
             if u == vertex or v == vertex:
                 self._edges.remove(((u, v), w))
 
-    def add_edge(self, edge: Edge, weight=1):
+    def add_edge(self, edge: Edge, weight: N = 1) -> None:
         u, v = edge
 
         if ((v, u), weight) in self._edges:
@@ -39,7 +42,7 @@ class Graph:
         self._vertex_neighbours[u].add((v, weight))
         self._vertex_neighbours[v].add((u, weight))
     
-    def remove_edge(self, edge: Edge, weight=1):
+    def remove_edge(self, edge: Edge, weight: N = 1):
         u, v = edge
         self._vertex_neighbours[u].remove((v, weight))
         self._vertex_neighbours[v].remove((u, weight))
@@ -49,11 +52,11 @@ class Graph:
         else:
             self._edges.remove(((v, u), weight))
 
-    def vertices(self):
+    def vertices(self) -> None:
         return self._vertices.copy()
 
-    def edges(self):
+    def edges(self) -> None:
         return self._edges.copy()
     
-    def vertex_neighbours(self, vertex: Hashable):
+    def vertex_neighbours(self, vertex: T) -> None:
         return self._vertex_neighbours[vertex]

@@ -31,12 +31,14 @@ class GraphRenderer:
     GIF_FPS = 1
     WINDOWS_TITLE = 'MstFind'
 
-    def __init__(self, figsize=None):
+    def __init__(self, figsize: Optional[Tuple[float, float]] = None) -> None:
         self._converter = GraphConverter()
         self._fig, self._ax = plt.subplots(figsize=figsize)
         self._fig.canvas.set_window_title(GraphRenderer.WINDOWS_TITLE)
     
-    def render_mst(self, g: Graph, mst: Graph, animated: bool = False, trace: Optional[Edges] = None, gifpath=None):
+    def render_mst(self, g: Graph, mst: Graph, 
+                   animated: bool = False, trace: Optional[Edges] = None, 
+                   gifpath=None) -> None:
         if animated:
             if trace is None:
                 raise ValueError('argument trace must contain sequence of edges')
@@ -44,7 +46,7 @@ class GraphRenderer:
         else:
             self._render_mst_simple(g, mst)
 
-    def _render_mst_simple(self, g: Graph, mst: Graph):
+    def _render_mst_simple(self, g: Graph, mst: Graph) -> None:
         g_nx = self._converter.graph_to_nx_graph(g)
         mst_nx = self._converter.graph_to_nx_graph(mst)
 
@@ -67,7 +69,7 @@ class GraphRenderer:
         plt.axis('off')
         plt.show()
     
-    def _render_mst_complex(self, g: Graph, trace: Edges, gifpath=None):
+    def _render_mst_complex(self, g: Graph, trace: Edges, gifpath: Optional[str] = None) -> None:
         g_nx = self._converter.graph_to_nx_graph(g)
         g_weighthed_edges = self._converter.weighted_edges(g)
         
